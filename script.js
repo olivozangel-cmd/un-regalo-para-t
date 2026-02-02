@@ -1,4 +1,4 @@
-const PASSWORD = "tu_clave_aqui"; 
+const PASSWORD = "02022009"; 
 
 function playClick() { document.getElementById("snd-click").play(); }
 function playTurtleSound() { document.getElementById("snd-turtle").play(); }
