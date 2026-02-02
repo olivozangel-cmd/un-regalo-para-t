@@ -1,21 +1,44 @@
-const PASSWORD = "02022009"; 
+const PASSWORD = "tu_clave_aqui"; 
+
+function playClick() { document.getElementById("snd-click").play(); }
+function playTurtleSound() { document.getElementById("snd-turtle").play(); }
+function playWhaleSound() { 
+    const whaleAudio = document.getElementById("snd-whale");
+    whaleAudio.volume = 0.5;
+    whaleAudio.currentTime = 0;
+    whaleAudio.play(); 
+}
 
 function login() {
     const input = document.getElementById("password").value;
-    const loginDiv = document.getElementById("login");
-    
     if(input === PASSWORD){
-        loginDiv.classList.add("open-envelope");
+        playClick();
+        document.getElementById("login").classList.add("open-envelope");
         setTimeout(() => {
             document.getElementById("login-container").style.display = "none";
             document.getElementById("content").style.display = "block";
-            const music = document.getElementById("music");
-            music.volume = 0.3;
-            music.play();
+            updateCounter();
+            document.getElementById("music").play();
         }, 600);
-    } else {
-        alert("Contraseña incorrecta 😢");
-    }
+    } else { alert("Contraseña incorrecta 😢"); }
+}
+
+function showRoseMessage() {
+    alert("Estos últimos días, he visto mucho de ti que verdaderamente me sorprende, eres alguien que cuida mucho de si mismo y eso se me hace muy bonito y un gesto de amor propio, sigue así, y claro me hace falta conocernos más, Pero con lo poco que me has mostrado eso me hace ver qué eres alguien de buen corazón 🌹");
+}
+
+function updateCounter() {
+    const now = new Date();
+    let bday = new Date(now.getFullYear(), 1, 2);
+    if (now > bday) bday = new Date(now.getFullYear() + 1, 1, 2);
+    const diff = bday - now;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    document.getElementById("birthday-counter").innerText = `Faltan ${days} días para tu próximo cumpleaños 🎂`;
+}
+
+function showTodayMessage() {
+    const todayMsgs = ["Hoy mereces ir con calma. ✨", "No tienes que hacerlo todo perfecto. 💙", "Si hoy fue pesado, mañana puede ser más ligero. 🌈"];
+    document.getElementById("message").innerText = todayMsgs[Math.floor(Math.random() * todayMsgs.length)];
 }
 
 const messages = {
@@ -23,58 +46,35 @@ const messages = {
     bonito: "Me gustaría verte hacer lo que más te apasiona en esta vida 🌷",
     sincero: "Tienes una energía que no se la he visto a nadie 💫"
 };
-
-function showMessage(type) {
-    const msgDiv = document.getElementById("message");
-    msgDiv.innerText = messages[type];
-    const dog = document.getElementById("dog");
-    dog.style.transform = "scale(1.2)";
-    setTimeout(() => dog.style.transform = "scale(1)", 300);
-}
-
-const comfortMessages = [
-    "Respira profundo, todo va a estar bien. Eres más fuerte de lo que crees. 🐢",
-    "Recuerda que después de la tormenta siempre sale el sol. ☀️",
-    "No estás sola, aquí hay alguien que siempre piensa en ti con mucho cariño. ✨",
-    "Está bien no estar bien a veces, tómate tu tiempo, como una tortuguita. 💚",
-    "Eres una persona maravillosa y este mal momento no define quién eres. 🌸",
-    "Tu valor no disminuye por un mal día, ¡eres increíble! 🌈",
-    "No te apresures, cada paso cuenta, por más pequeño que sea. 🐾"
-];
+function showMessage(type) { document.getElementById("message").innerText = messages[type]; }
 
 function showSadMoments() {
     const container = document.getElementById("sad-moments");
     const text = document.getElementById("sad-text");
-    const randomMsg = comfortMessages[Math.floor(Math.random() * comfortMessages.length)];
-    
-    text.innerText = randomMsg;
+    const comfortMessages = ["Respira profundo, todo va a estar bien. 🐢", "Recuerda que después de la tormenta siempre sale el sol. ☀️", "Tu valor no disminuye por un mal día, ¡eres increíble! 🌈"];
+    text.innerText = comfortMessages[Math.floor(Math.random() * comfortMessages.length)];
     container.style.display = "block";
-    
-    const dog = document.getElementById("dog");
-    dog.innerText = "🐶💕";
-    setTimeout(() => dog.innerText = "🐶", 3000);
-}
-
-function showRoseMessage() {
-    alert("Alguien especial te quiere seguir conociendo y saber más de tu maravilloso universo 🌹");
 }
 
 function pawMessage() {
-    const txt = document.getElementById("paw-text");
-    txt.innerText = "¡Eres maravillosa! ✨";
-    setTimeout(() => txt.innerText = "", 3000);
+    document.getElementById("paw-text").innerText = "¡Eres maravillosa! ✨";
+    setTimeout(() => document.getElementById("paw-text").innerText = "", 3000);
 }
 
 function spawnWhales() {
-    for(let i=0; i<15; i++) {
+    playWhaleSound();
+    // Generar varias ballenas
+    for(let i=0; i<8; i++) {
         setTimeout(() => {
             const whale = document.createElement("div");
-            whale.className = "whale-anim";
+            whale.className = "whale-anim"; 
             whale.innerText = "🐳";
-            whale.style.left = Math.random() * 100 + "vw";
-            whale.style.fontSize = Math.random() * 20 + 20 + "px";
+            // Posición aleatoria en el ancho de la pantalla
+            whale.style.left = Math.random() * 85 + "vw";
             document.body.appendChild(whale);
-            setTimeout(() => whale.remove(), 3000);
-        }, i * 150);
+            
+            // Eliminar elemento después de la animación
+            setTimeout(() => whale.remove(), 4000);
+        }, i * 300);
     }
 }
